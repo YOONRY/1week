@@ -1,38 +1,38 @@
 #include <Arduino.h>
 #include <TaskScheduler.h>
-
+// LED 핀 정의
 #define RED_LED 3
 #define YELLOW_LED 9
 #define GREEN_LED 5
-
+// 버튼 핀 정의
 #define BTN_EMERGENCY 6
 #define BTN_BLINKING 7
 #define BTN_ONOFF 8
-
+// 가변저항 핀 정의
 #define POTENTIOMETER_PIN A0
-
-int ledBrightness = 255;
-bool emergencyMode = false;
-bool blinkingMode = false;
-bool systemOn = true;
-
+// LED 밝기 및 시스템 상태 변수
+int ledBrightness = 255; // LED 기본 밝기
+bool emergencyMode = false; // 비상 모드 활성화 여부
+bool blinkingMode = false; // 블링크 모드 활성화 여부
+bool systemOn = true; // 시스템 작동 여부
+// 버튼 디바운싱 관련 변수
 unsigned long lastDebounceTimeEmergency = 0;
 unsigned long lastDebounceTimeBlinking = 0;
 unsigned long lastDebounceTimeOnOff = 0;
 const unsigned long debounceDelay = 50;
-
+// 신호등 상태 관리 변수
 int trafficState = 0;
 unsigned long lastStateChangeTime = 0;
 unsigned long trafficDelays[] = {2000, 500, 2000, 200, 130, 200, 130, 200, 130, 500};
 
 Scheduler runner;
-
+// 함수 선언
 void blinkLEDs();
 void toggleLEDs();
 void emergencyModeOn();
 void sendTrafficLightState();
 void checkButtons();
-
+// TaskScheduler 객체 생성
 Task taskBlinking(500, TASK_FOREVER, &blinkLEDs, &runner, false);
 Task taskToggleLEDs(100, TASK_FOREVER, &toggleLEDs, &runner, true);
 Task taskEmergency(100, TASK_FOREVER, &emergencyModeOn, &runner, false);
