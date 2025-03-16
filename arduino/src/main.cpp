@@ -125,19 +125,24 @@ void blinkLEDs() {
 void checkButtons() {
     unsigned long currentMillis = millis();
 
-    if (digitalRead(BTN_EMERGENCY) == LOW && (currentMillis - lastDebounceTimeEmergency > debounceDelay)) {
-        emergencyMode = !emergencyMode;
-        if (emergencyMode) {
-            taskEmergency.enable();
-            taskBlinking.disable();
-            taskToggleLEDs.disable();
-            taskSendTrafficState.disable();  // 웹 전송도 중지
-        } else {
-            taskEmergency.disable();
-            taskToggleLEDs.enable();
-            taskSendTrafficState.enable();
-        }
-        lastDebounceTimeEmergency = currentMillis;
+   if (digitalRead(BTN_EMERGENCY) == LOW && (currentMillis - lastDebounceTimeEmergency > debounceDelay)) {
+    emergencyMode = !emergencyMode;
+
+    if (emergencyMode) {
+        taskEmergency.enable();
+        taskBlinking.disable();
+        taskToggleLEDs.disable();
+        taskSendTrafficState.enable();  // ⭐️ Emergency 상태 전송
+
+        Serial.println("<EMERGENCY MODE ENABLED>");
+    } else {
+        taskEmergency.disable();
+        taskToggleLEDs.enable();
+        taskSendTrafficState.enable();
+
+        Serial.println("<EMERGENCY MODE DISABLED>");
+    }
+    lastDebounceTimeEmergency = currentMillis;
         while (digitalRead(BTN_EMERGENCY) == LOW);
     }
 
