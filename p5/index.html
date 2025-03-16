@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>아두이노 신호등 제어 시스템</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+</head>
+<body style="display: flex; flex-direction: column; align-items: center; font-family: Arial; padding-top: 20px;">
+  
+  <h2>🚦 아두이노 신호등 제어 시스템 🚦</h2>
+  <button onclick="connectSerial()">🔌 아두이노 연결</button>
+
+  <div style="margin-top: 15px; font-size: 1.2em;">
+    현재 신호등 상태: <span id="lightState">연결 안됨</span>
+  </div>
+  <div style="margin-top:20px;">
+  🔴 빨강 지속시간 (초): <input type="range" id="redSlider" min="1" max="10" value="2" oninput="sendTimings()"><span id="redValue">2</span><br>
+  🟡 노랑 지속시간 (초): <input type="range" id="yellowSlider" min="0.1" max="3" step="0.1" value="0.5" oninput="sendTimings()"><span id="yellowValue">0.5</span><br>
+  🟢 초록 지속시간 (초): <input type="range" id="greenSlider" min="1" max="10" value="2" oninput="sendTimings()"><span id="greenValue">2</span>
+</div>
+  <div style="margin-top: 10px; font-size: 1.2em;">
+  현재 밝기 값(PWM): <span id="brightnessValue">0</span> / 255
+</div>
+
+  <script src="sketch.js"></script>
+
+</body>
+</html>
