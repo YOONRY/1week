@@ -95,6 +95,10 @@ TaskScheduler (Arduino 라이브러리): 아두이노에서 효율적인 멀티�
 2. UI에서 "연결하기" 버튼을 클릭해 **Arduino와 Web Serial**을 연결합니다.
 3. 센서 데이터를 실시간으로 확인하거나, 슬라이더바로 아두이노를 제어합니다.
 
+   ![image](https://github.com/user-attachments/assets/250ace37-1a4d-4192-9cb2-0d01a42d2f96)
+   웹 UI 예시
+
+
 
 
 참고자료
