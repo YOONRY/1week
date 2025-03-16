@@ -74,13 +74,13 @@ TaskScheduler (Arduino 라이브러리): 아두이노에서 효율적인 멀티�
 
 ### 버튼 및 신호 디폴트 상태
 
-## 버튼 입력은 디지털 핀(PULLDOWN 저항 필요)
+- 버튼 입력은 디지털 핀(PULLDOWN 저항 필요)
 
-## 버튼을 누르지 않을 때: HIGH (5V)
+- 버튼을 누르지 않을 때: HIGH (5V)
 
-## 버튼을 눌렀을 때: LOW (0V)
+- 버튼을 눌렀을 때: LOW (0V)
 
-## LED 출력은 PWM 제어 가능 (AnalogWrite 사용)
+- LED 출력은 PWM 제어 가능 (AnalogWrite 사용)
 
 ##  주요 기능
 ### 1 **신호등 제어 시스템** 
