@@ -45,6 +45,7 @@ Task taskSendTrafficState(500, TASK_FOREVER, &sendTrafficLightState, &runner, tr
 
 int previousBrightness = -1;
 
+// LED 밝기 업데이트 함수
 void updateLEDBrightness() {
     int sensorValue = analogRead(POTENTIOMETER_PIN);
     ledBrightness = map(sensorValue, 0, 1023, 0, 255);
@@ -52,11 +53,12 @@ void updateLEDBrightness() {
 
 String lastSentState = "";
 
+// 신호등 상태를 시리얼로 전송하는 함수
 void sendTrafficLightState() {
     String state;
 
     if (!systemOn) state = "OFF";
-    else if (emergencyMode) state = "EMERGENCY";
+    else if (emergencyMode) state = "EMERGENCY"; // 🚨 이머전시 모드일 때 상태 전송
     else if (blinkingMode) state = "BLINKING";   // 🚨 블링크 모드일 때 상태 전송
     else {
         if (trafficState == 0) state = "RED";
@@ -75,6 +77,7 @@ void sendTrafficLightState() {
         previousBrightness = ledBrightness;
     }
 }
+// 신호등 LED 제어 함수
 void toggleLEDs() {
     unsigned long now = millis();
     checkButtons();
@@ -89,7 +92,7 @@ void toggleLEDs() {
         analogWrite(GREEN_LED, (trafficState == 2 || trafficState == 3 || trafficState == 5 || trafficState == 7) ? ledBrightness : 0);
     }
 }
-
+// 비상 모드 실행 함수
 void emergencyModeOn() {
     checkButtons();
     updateLEDBrightness();
@@ -97,7 +100,7 @@ void emergencyModeOn() {
     analogWrite(YELLOW_LED, 0);
     analogWrite(GREEN_LED, 0);
 }
-
+// 블링크 모드 실행 함수
 void blinkLEDs() {
     static unsigned long lastBlinkTime = 0;
     unsigned long now = millis();
@@ -121,7 +124,7 @@ void blinkLEDs() {
     sendTrafficLightState();
 }
 
-
+// 버튼 입력 감지 및 처리 함수
 void checkButtons() {
     unsigned long currentMillis = millis();
 
@@ -181,6 +184,7 @@ void checkButtons() {
     }
 }
 
+// 아두이노 초기 설정 함수
 void setup() {
     pinMode(RED_LED, OUTPUT);
     pinMode(YELLOW_LED, OUTPUT);
@@ -197,13 +201,14 @@ void setup() {
     taskSendTrafficState.enable();
 }
 
+// 메인 루프 함수
 void loop() {
     checkButtons();
     if (systemOn) {
         runner.execute();
     }
 
-    // ⭐️ 시리얼 수신 처리 부분 (블링크 중에는 무시)
+    //시리얼 수신 처리 부분 
     if (Serial.available() > 0) {
         String received = Serial.readStringUntil('>');
         int redDuration, yellowDuration, greenDuration;
